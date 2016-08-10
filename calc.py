@@ -92,7 +92,7 @@ def scantimeForSteps():
 
 def radiusOfScan():
     steps = int(input("Number of steps: "))
-    distance = ((steps-1) * 105) + 70
+    distance = ((steps-1) * 115) + 70
     print '%dm' %distance
     raw_input("Press Enter to continue...")
     printmenu()
@@ -100,9 +100,9 @@ def radiusOfScan():
 
 def stepsOfScan():
     radius = int(input("Radius in metres: "))
-    distance = (radius - 70) / 105
+    distance = (radius - 70) / 115
     for x in range(distance,distance+3):
-        distance = ((x-1) * 105) + 70
+        distance = ((x-1) * 115) + 70
         if x >0:
             print '%d steps - %dm' % (x, distance)
     raw_input("Press Enter to continue...")
