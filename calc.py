@@ -64,9 +64,10 @@ def accountsForSteps():
     roughaccounts = totaltime / scantime
 
     for x in range(roughaccounts-1,roughaccounts+2):
-        m, s = divmod(totaltime/x, 60)
-        h, m = divmod(m, 60)
-        print "%d accounts, -sd %d, -st %d, scans in %ds -%dh:%02dm:%02ds" % (x, delay, steps, totaltime/x, h, m, s)
+        if x > 0:
+            m, s = divmod(totaltime/x, 60)
+            h, m = divmod(m, 60)
+            print "%d accounts, -sd %d, -st %d, scans in %ds -%dh:%02dm:%02ds" % (x, delay, steps, totaltime/x, h, m, s)
     raw_input("Press Enter to continue...")
     printmenu()
 
