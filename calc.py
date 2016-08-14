@@ -5,14 +5,18 @@ import os
 import sys
 import time
 import signal
+import platform
+
+
 
 def signal_handler(signal, frame):
         print('You pressed Ctrl+C!')
         sys.exit(0)
 
 def printmenu():
-    os.system('cls') # for Windows
-    os.system('clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
+    #os.system('cls') # for Windows
+    #os.system('clear')
 
     print (30 * '-')
     print (" CALCULATE ALL THE THINGS")
