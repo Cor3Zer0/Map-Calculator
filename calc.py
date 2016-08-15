@@ -6,6 +6,7 @@ import sys
 import time
 import signal
 import platform
+import math
 
 
 
@@ -24,12 +25,14 @@ def printmenu():
     print ("1. Accounts needed for steps size")
     print ("2. Scan time of steps")
     print ("3. Radius of scan from number of steps")
-    print ("4. Steps need to cover a radius")
-    print ("5. Scan cirlces per step size")
-    print ("6. Number of workers per leap size (beehive)")
+    print ("4. Radius of scan from number of steps and leaps (beehive)")
+    print ("5. Steps need to cover a radius")
+    print ("6. Scan cirlces per step size")
+    print ("7. Number of workers per leap size (beehive)")
+    print ("8. Show scan area on map")
     print ("0. Quit")
     print (30 * '-')
-    choice = raw_input('Enter your choice [0-6] : ')
+    choice = raw_input('Enter your choice [0-8] : ')
     try:
         choice = int(choice)
     except:
@@ -43,11 +46,15 @@ def printmenu():
     elif choice == 3:
         radiusOfScan()
     elif choice == 4:
-        stepsOfScan()
+        radiusOfHive()
     elif choice == 5:
-        circlesPerStep()
+        stepsOfScan()
     elif choice == 6:
+        circlesPerStep()
+    elif choice == 7:
         workersPerStep()
+    elif choice == 8:
+        mapLink()
     elif choice == 0:
         cleanExit("bye")
     else:
@@ -98,11 +105,34 @@ def scantimeForSteps():
 def radiusOfScan():
     steps = int(input("Number of steps: "))
     distance = ((steps-1) * 115) + 70
-    print '%dm' %distance
+    print '%dm radius' %distance
+    
+    choice = raw_input("Would you like to view this on a map? (y/N): ")
+    if choice.lower() == 'y':
+        lat = input("Latitude: ")
+        long = input("Longitude: ")
+        radius = distance/float(1000)
+        print "https://www.freemaptools.com/radius-around-point.htm?clat=%f&clng=%f&r=%f&lc=FFFFFF&lw=1&fc=00FF00&mt=r" %(lat, long, radius)
     raw_input("Press Enter to continue...")
     printmenu()
 
-
+def radiusOfHive():
+    steps = int(input("Number of steps: "))
+    leaps = int(input("Number of leaps: "))
+    
+    radiusSteps = ((steps-1) * 115) + 70
+    lengthHex = float(math.sqrt(3) * radiusSteps)
+    distance = (lengthHex*0.5) + (lengthHex * (leaps-1))
+    print '%dm radius' %int(distance)
+    choice = raw_input("Would you like to view this on a map? (y/N): ")
+    if choice.lower() == 'y':
+        lat = input("Latitude: ")
+        long = input("Longitude: ")
+        radius = distance/float(1000)
+        print "https://www.freemaptools.com/radius-around-point.htm?clat=%f&clng=%f&r=%f&lc=FFFFFF&lw=1&fc=00FF00&mt=r" %(lat, long, radius)    
+    raw_input("Press Enter to continue...")
+    printmenu()    
+    
 def stepsOfScan():
     radius = int(input("Radius in metres: "))
     distance = (radius - 70) / 115
@@ -135,6 +165,14 @@ def workersPerStep():
     raw_input("Press Enter to continue...")
     printmenu()
 
+
+def mapLink():
+    lat = input("Latitude: ")
+    long = input("Longitude: ")
+    radius = input("Radius in meters: ")/float(1000)
+    print "https://www.freemaptools.com/radius-around-point.htm?clat=%f&clng=%f&r=%f&lc=FFFFFF&lw=1&fc=00FF00&mt=r" %(lat, long, radius)
+    raw_input("Press Enter to continue...")
+    printmenu()
 
 def cleanExit(message):
     sys.exit(message)
